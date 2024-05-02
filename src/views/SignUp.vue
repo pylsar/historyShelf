@@ -27,11 +27,15 @@
     import Button from 'primevue/button';
     import InputText from 'primevue/inputtext';
 
+    import {useAuthStore} from '../stores/auth';
+
+    const authStore = useAuthStore();
     const email = ref();
     const password = ref();
 
+
     const signup = async ()=>{
-        console.log('test');
+        await authStore.signup({email: email.value, password: password.value})
     }
 </script>
 
