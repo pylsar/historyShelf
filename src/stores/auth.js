@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
-const apiKey = 'AIzaSyC30VmVWhoEqVrKDdPNe9woq9mJ8QiP7sc';
+const apiKey = import.meta.env.VITE_API_KEY_FIREBASE;
 
 export const useAuthStore = defineStore('auth', () => {
  
@@ -18,15 +18,17 @@ export const useAuthStore = defineStore('auth', () => {
 
   const loader = ref(false);
 
-  const signup = async (payload) =>{
+  const auth = async (payload, type) =>{
+    //проверка на регистрацию или вход
+    const stringUrl = type === 'signup' ? 'signUp' : 'signInWithPassword';
     error.value = ''; //очищаем ошибку
     loader.value = true; // запускаем лоадер
     try{
-      let response = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`, {
+      let response = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:${stringUrl}?key=${apiKey}`, {
         ...payload,
         returnSecureToken: true
       });
-      // console.log('response.data', response.data) 
+       console.log('response.data', response.data) 
 
       userInfo.value = {
         token: response.data.idToken,
@@ -36,7 +38,6 @@ export const useAuthStore = defineStore('auth', () => {
         expiresIn: response.data.expiresIn
       }
 
-      loader.value = false; // останавливаем лоадер
 
     }catch(err){
       switch(err.response.data.error.message){
@@ -46,13 +47,23 @@ export const useAuthStore = defineStore('auth', () => {
         case 'OPERATION_NOT_ALLOWED':
           error.value = 'Операция запрещена'  
           break;
+        case 'EMAIL_NOT_FOUND':
+          error.value = 'Почта не существует'  
+          break;
+        case 'INVALID_PASSWORD':
+          error.value = 'Не верный пароль'  
+          break;
         default:
           error.value = 'Ошибка'  
           break;
       }
+      throw error.value // показываем почему не заработало  
+
+    }finally{
       loader.value = false; // останавливаем лоадер
     }
+
   }
 
-  return { signup, userInfo, error, loader }
+  return { auth, userInfo, error, loader }
 })
