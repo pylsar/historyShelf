@@ -8,3 +8,5 @@ axios.interceptors.request.use((config) => {
     config.params = params;
     return config;
 })
+
+// axios.interceptors для удобной работы с token, чтобы добавить 1 раз а не каждый раз

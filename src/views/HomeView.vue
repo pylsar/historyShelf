@@ -1,9 +1,8 @@
 <script setup>
-  import Button from 'primevue/button';
 </script>
 
 <template>
-  <main>
-    <Button label="Submit" />
-  </main>
+  <div>
+    <h1>Домашняя страница</h1>
+  </div>
 </template>
