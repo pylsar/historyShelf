@@ -4,7 +4,7 @@
       <RouterLink to="/">Главная</RouterLink>
       <RouterLink to="/signup">Зарегестрироватся</RouterLink>
       <RouterLink to="/signin">Войти</RouterLink>
-      <RouterLink to="/cars">Авто</RouterLink>
+      <RouterLink v-if="token" to="/cars">Авто</RouterLink>
     </nav>
   </header>
   <main>
@@ -17,6 +17,7 @@
 <script setup>
   import { RouterLink, RouterView } from 'vue-router';
   import { useAuthStore } from './stores/auth';
+  import { computed } from 'vue';
 
   const authStore = useAuthStore();
 
@@ -34,6 +35,9 @@
   }
 
   checkUser();
+
+
+  const token = computed(() => authStore.userInfo.token);
 </script>
 
 
