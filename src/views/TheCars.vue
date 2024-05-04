@@ -44,5 +44,3 @@
         await getAllCars();
     })
 </script>
-
-<!-- https://historyshelf-52d58-default-rtdb.europe-west1.firebasedatabase.app/cars -->
