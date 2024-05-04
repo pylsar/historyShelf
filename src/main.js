@@ -12,6 +12,8 @@ import { initializeApp } from "firebase/app"
 import App from './App.vue'
 import router from './router'
 
+import './api'
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
