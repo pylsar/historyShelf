@@ -14,7 +14,7 @@
 <script setup>
     import {ref, onMounted} from 'vue';
     import { useAuthStore } from '@/stores/auth';
-    import axios from 'axios';
+    import axiosApiInstance from '../api'
 
     import Card from 'primevue/card';
     import Loader from '../components/Loader.vue';
@@ -29,7 +29,7 @@
         // ?auth=${authStore.userInfo.token} - это токен зарегестрированого юзера
         // const response = await axios.get(`https://historyshelf-52d58-default-rtdb.europe-west1.firebasedatabase.app/cars.json?auth=${authStore.userInfo.token}`);
         // так как использию interceptors, то этот параметр не нужен (api.js)
-        const response = await axios.get(`https://historyshelf-52d58-default-rtdb.europe-west1.firebasedatabase.app/cars.json`);
+        const response = await axiosApiInstance.get(`https://historyshelf-52d58-default-rtdb.europe-west1.firebasedatabase.app/cars.json`);
         console.log(response.data)
         cars.value = response.data;
        }catch(err){
